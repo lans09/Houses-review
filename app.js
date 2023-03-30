@@ -5,16 +5,16 @@ const app = express()
 // connect db
 const connectDB = require('./db/connect')
 
+app.use(express.json())
 // routers
 const authRouter = require('./routes/auth')
 const housesRouter = require('./routes/houses')
 
-app.use('/api/v1/auth',authRouter)
+app.use('/api/v1',authRouter)
 app.use('/api/v1/houses',housesRouter)
 
 
 
-app.use(express.json())
 
 
 const port = process.env.PORT || 3000

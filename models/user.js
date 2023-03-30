@@ -10,11 +10,12 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    required: true
+    required: [true,'please provide an Email'],
+    trim : true
   },
   password: {
     type: String,
-    required: true
+    required: [true,'please provide a password']
   },
   account_type: {
     type: String,
