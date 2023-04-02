@@ -8,10 +8,16 @@ const signUp = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ message: 'Please provide all required fields' });
     }
-  
     const emailParts = email.split('@');
     const username = emailParts[0];
-  
+    const checkEmailProvider = emailParts[1];
+    if(checkEmailProvider !== "gmail.com" && checkEmailProvider !== "yahoo.com" && checkEmailProvider !== "live.com"){
+      return res.status(409).json({
+        success: false,
+        message: 'This is not a vaild email',
+      });
+    }
+
     try {
       // Check if user exists in database
       const isUser = await User.findOne({ email });
