@@ -11,7 +11,7 @@ const signUp = async (req, res) => {
     const emailParts = email.split('@');
     const username = emailParts[0];
     const checkEmailProvider = emailParts[1];
-    if(checkEmailProvider !== "gmail.com" && checkEmailProvider !== "yahoo.com" && checkEmailProvider !== "live.com"){
+    if(checkEmailProvider !== "gmail.com" && checkEmailProvider !== "yahoo.com" && checkEmailProvider !== "outlook.com"){
       return res.status(409).json({
         success: false,
         message: 'This is not a vaild email',
@@ -44,7 +44,15 @@ const signUp = async (req, res) => {
 
 
 const login = async (req,res) => {
-    res.send('login user')
+    const {email , password} = req.body
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Please provide all required fields' });
+    }
+    const user = await User.findOne({email})
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
 }
 
 

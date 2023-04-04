@@ -1,11 +1,23 @@
 const mongoose = require('mongoose')
 
 const housesSchema = new mongoose.Schema({
-    address: {
+    houseNumber: {
         type: String,
         required: true
       },
-      rentalPrice: {
+    street: {
+        type: String,
+        required: true
+      },
+    city: {
+        type: String,
+        required: true
+      },
+    state: {
+        type: String,
+        required: true
+      },
+    rentalPrice: {
         type: Number,
         required: true
       },

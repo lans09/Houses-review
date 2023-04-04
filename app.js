@@ -11,7 +11,7 @@ const authRouter = require('./routes/auth')
 const housesRouter = require('./routes/houses')
 
 app.use('/api/v1',authRouter)
-app.use('/api/v1/houses',housesRouter)
+app.use('/api/v1/house',housesRouter)
 
 
 

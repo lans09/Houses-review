@@ -9,7 +9,7 @@ const {
     deleteHouse} = require('../controllers/houses')
     
     router.route('/').post(createHouse).get(getAllHouses)
-    router.route('/:id').get(getHouse).delete(deleteHouse).patch(updateHouse)
+    router.route('/:id').get(getHouse).delete(deleteHouse).put(updateHouse)
 
 
     module.exports = router
