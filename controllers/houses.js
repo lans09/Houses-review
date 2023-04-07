@@ -1,13 +1,53 @@
 const House = require('../models/houses')
+const geocoder = require('../utils/geocoder')
 
-const createHouse = async(req,res) =>{
-try{
-    const house = await House.create(req.body)
-    res.status(201).json({message : 'house successfully created',content : house})
-} catch(error){
-    res.status(500).json({ message: 'Error createing house', error: error });
-}
-}
+const createHouse = async (req, res) => {
+  const {address} = req.body
+  if(!address){
+    return res.status(400).json({
+      message : 'please provide an address'
+    })
+  }
+  // get the googlePlaceId from address
+  const loc = await geocoder.geocode(address);
+  // console.log(loc)
+  locationData = {loc}
+  const googlePlaceId = locationData.loc[0].extra.googlePlaceId;
+  console.log(googlePlaceId);
+  
+  // Check if the house already exists
+  const existingHouse = await House.findOne({ googleMapsRef: googlePlaceId });
+  
+  if (existingHouse) {
+    return res.status(409).json({ error: 'House already exists' });
+  }
+  
+  try {
+    // Create a new house object with the request body
+    const house = new House({ ...req.body });
+
+    // Geocode the address and store the formatted address and coordinates in the location field
+    const locationData = await geocoder.geocode(address);
+    house.location = {
+      type: 'Point',
+      coordinates: [locationData[0].longitude, locationData[0].latitude],
+      formattedAddress: locationData[0].formattedAddress,
+    };
+
+    // Set the googleMapsRef field to the place_id returned by the Google Maps API geocoding service
+    house.googleMapsRef = googlePlaceId;
+    house.address = undefined
+    // Save the house to the database
+    await house.save();
+
+    // Return the created house object
+    res.status(201).json({ house});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 const getAllHouses = async(req,res) =>{
     try {
           const houses = await House.find();

@@ -8,8 +8,12 @@ const {
     updateHouse,
     deleteHouse} = require('../controllers/houses')
     
-    router.route('/').post(createHouse).get(getAllHouses)
-    router.route('/:id').get(getHouse).delete(deleteHouse).put(updateHouse)
+const auth = require('../middleware/auth')
+    router.post('/',createHouse);
+    router.get('/',getAllHouses);
+    router.get('/:id',getHouse);
+    router.delete('/',deleteHouse);
+    router.put('/',updateHouse);
 
 
     module.exports = router
