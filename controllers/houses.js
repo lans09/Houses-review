@@ -71,29 +71,29 @@ const getHouse = async(req,res) =>{
     };
     
 
-const updateHouse = async(req,res) =>{
-    try {
-        const { id } = req.params;
-        const { houseNumber, street, city, state, rentalPrice } = req.body;
-        // Find the house by id
-        const house = await House.findById(id);
-        if (!house) {
-          return res.status(404).json({ message: 'House not found' });
-        }
-        // Update the house fields
-        house.houseNumber = houseNumber || house.houseNumber;
-        house.street = street || house.street;
-        house.city = city || house.city;
-        house.state = state || house.state;
-        house.rentalPrice = rentalPrice || house.rentalPrice;
-        // Save the updated house to the database
-        const updatedHouse = await house.save();
-        return res.status(200).json({ message: 'House updated successfully', content: updatedHouse });
-      } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Error updating house', error });
-      }
-    };
+// const updateHouse = async(req,res) =>{
+//     try {
+//         const { id } = req.params;
+//         const { houseNumber, street, city, state, rentalPrice } = req.body;
+//         // Find the house by id
+//         const house = await House.findById(id);
+//         if (!house) {
+//           return res.status(404).json({ message: 'House not found' });
+//         }
+//         // Update the house fields
+//         house.houseNumber = houseNumber || house.houseNumber;
+//         house.street = street || house.street;
+//         house.city = city || house.city;
+//         house.state = state || house.state;
+//         house.rentalPrice = rentalPrice || house.rentalPrice;
+//         // Save the updated house to the database
+//         const updatedHouse = await house.save();
+//         return res.status(200).json({ message: 'House updated successfully', content: updatedHouse });
+//       } catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ message: 'Error updating house', error });
+//       }
+//     };
 
 const deleteHouse = async(req,res) =>{
     try {
